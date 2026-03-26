@@ -4,7 +4,22 @@ Read-only snapshot of the Cross‑Alliance E2E Integration Console (same behavio
 
 **Live site:** [https://chakn005.github.io/Content_flow_Integration_READABLE/](https://chakn005.github.io/Content_flow_Integration_READABLE/)
 
-This repository must include **`index.html`**, **`app.js`**, and **`styles.css`** at the root. If the site loads but looks broken, confirm those three files are committed and pushed.
+### Site shows **404** (most common fixes)
+
+1. **Turn Pages on** — Repo **Settings → Pages**. Under **Build and deployment**, you must choose **one** source and save:
+   - **GitHub Actions** (uses `.github/workflows/deploy-pages.yml`), **or**
+   - **Deploy from a branch** → **main** → **/** (root).  
+   If this is wrong (e.g. **/docs** while files live in the root), you get **404**.
+
+2. **Do not mix two sources** — If you use **Actions**, do not also leave Pages on “Deploy from branch” for the same site in a conflicting way. Pick one mode and save.
+
+3. **If you use Actions** — Open **Actions** and confirm **Deploy GitHub Pages** is **green**. A failed or never-run workflow means nothing is published → **404**.
+
+4. **Fastest path** if Actions is confusing: set Pages to **Deploy from branch** → **main** → **/**, **delete** `.github/workflows/deploy-pages.yml`, push, wait 1–2 minutes, reload the site URL.
+
+5. **Repository must be public** (free GitHub Pages for public repos).
+
+This repository should have **`index.html`** at the root. If you use the full console snapshot, also include **`app.js`** and **`styles.css`**. If the page loads but looks unstyled or empty, those files are missing from `main`.
 
 ---
 
@@ -35,9 +50,9 @@ git push -u origin main
 ### A. GitHub Actions (this repo’s workflow)
 
 1. **Settings → Pages → Build and deployment**
-2. Set **Source** to **GitHub Actions** (not “Deploy from a branch” unless you disable the workflow below).
-3. Push to `main`. Open **Actions** → latest **Deploy GitHub Pages** run.
-4. If the job waits for **approval**, open the run → **Review deployments** → approve **github-pages** (first time only; you can relax this under **Settings → Environments → github-pages**).
+2. Set **Source** to **GitHub Actions**.
+3. Push to `main`. Open **Actions** → **Deploy GitHub Pages** → confirm the run is green.
+4. The workflow copies only `index.html`, `.nojekyll`, and optional `app.js` / `styles.css` into the published artifact (not the whole repo tree).
 
 ### B. Deploy from branch (no Actions)
 
