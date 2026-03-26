@@ -65,10 +65,12 @@ git push -u origin main
 
 ## Update from the main project
 
-In your **content-integration-flow** clone:
+`Content_flow_Integration_READABLE` is a **sibling** folder of `content-integration-flow` (both under the same parent directory, e.g. `AI training/`).
+
+From your **content-integration-flow** clone:
 
 ```bash
 bash scripts/sync-readable-pages.sh
 ```
 
-Then copy or commit the updated files from `Content_flow_Integration_READABLE/` into **this** repository and push (see above). The source HTML flag is `readonly.html` in the main repo (copied to `index.html` here).
+That copies `readonly.html` → `index.html` here plus `app.js`, `styles.css`, and `.nojekyll`. Then commit and push **this** repository (see above). The source HTML in the main repo is `readonly.html`.
