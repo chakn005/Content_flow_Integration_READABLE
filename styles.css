@@ -430,6 +430,8 @@ a { color: inherit; }
   font-weight: var(--font-weight-semibold);
   color: var(--blue);
   text-decoration: none;
+  padding: 4px 0;
+  border-radius: 6px;
 }
 .evidence-epic-link:hover {
   text-decoration: underline;
@@ -478,15 +480,18 @@ a { color: inherit; }
   margin: 0;
 }
 .evidence-plan-list a {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: var(--blue);
   text-decoration: none;
-  padding: 8px 10px;
-  margin: 0 -10px;
+  padding: 10px 12px;
+  margin: 0;
   border-radius: 8px;
   transition: background 0.12s ease;
 }
@@ -1150,12 +1155,44 @@ a { color: inherit; }
 }
 
 /* ---------- Read-only snapshot (readonly.html only) ---------- */
-/* Tabs behave like interactive mode (one panel at a time); links stay usable. */
+/* Keep header + tabs above main content; ensure tabs and Evidence links receive clicks. */
+body.read-only-mode .header {
+  z-index: 200;
+  position: sticky;
+}
+body.read-only-mode .header-tabs {
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+}
 body.read-only-mode .tab-btn {
   cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+  touch-action: manipulation;
 }
 body.read-only-mode .tab-btn:not(.active) {
   opacity: 0.72;
+}
+body.read-only-mode .drawer-overlay[hidden] {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+body.read-only-mode .drawer {
+  pointer-events: none !important;
+}
+body.read-only-mode #tab-evidence a {
+  pointer-events: auto;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+body.read-only-mode .evidence-epic .evidence-epic-link {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 4px;
 }
 body.read-only-mode .kpi-card {
   cursor: default;
