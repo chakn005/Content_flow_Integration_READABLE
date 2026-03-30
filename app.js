@@ -9,19 +9,6 @@ function applyReadOnlyShell() {
   document.body.classList.add("read-only-mode");
 
   document.getElementById("drawerClose")?.setAttribute("tabindex", "-1");
-
-  const overlay = document.getElementById("drawerOverlay");
-  if (overlay) {
-    overlay.hidden = true;
-    overlay.setAttribute("aria-hidden", "true");
-    overlay.style.setProperty("pointer-events", "none");
-  }
-  const drawer = document.getElementById("drawer");
-  if (drawer) {
-    drawer.classList.remove("open");
-    drawer.setAttribute("aria-hidden", "true");
-    drawer.style.setProperty("pointer-events", "none");
-  }
 }
 
 function softenReadOnlyCopy() {
@@ -484,27 +471,17 @@ function setupDrawer() {
 
 // ===== Tabs =====
 function setupTabs() {
-  const nav = document.querySelector("nav.header-tabs");
-  if (!nav) return;
+  const buttons = document.querySelectorAll(".tab-btn");
+  const panels = document.querySelectorAll(".tab-panel");
 
-  const panels = () =>
-    document.querySelectorAll("main.main-content > section.tab-panel");
-
-  nav.addEventListener("click", e => {
-    let el = e.target;
-    if (el.nodeType !== Node.ELEMENT_NODE) el = el.parentElement;
-    const btn = el && el.closest(".tab-btn");
-    if (!btn || !nav.contains(btn)) return;
-    e.preventDefault();
-    const tabId = btn.dataset.tab;
-    if (!tabId) return;
-
-    nav.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    panels().forEach(p => p.classList.remove("active"));
-    const target = document.getElementById(`tab-${tabId}`);
-    if (target) target.classList.add("active");
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons.forEach(b => b.classList.remove("active"));
+      panels.forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      const target = document.getElementById(`tab-${btn.dataset.tab}`);
+      if (target) target.classList.add("active");
+    });
   });
 }
 
@@ -514,14 +491,13 @@ function renderHeatmap() {
   if (!el) return;
 
   // Simple, static heatmap placeholder
-  const alliances = ["Content", "Media", "Data", "UI Localization", "Streaming"];
+  const alliances = ["Content", "Media", "UI Localization", "Streaming"];
   const milestones = ["Metadata/Artwork", "Avails/Rights", "AV Assets", "Title Planning & Exp.", "Live & Linear"];
 
   // Minimal placeholder statuses
   const grid = {
     Content:      ["cell-green", "cell-amber", "cell-amber", "cell-na", "cell-na"],
     Media:        ["cell-amber", "cell-amber", "cell-amber", "cell-na", "cell-na"],
-    Data:         ["cell-amber", "cell-amber", "cell-na",    "cell-na", "cell-na"],
     "UI Localization": ["cell-na",    "cell-amber", "cell-amber", "cell-na", "cell-na"],
     Streaming:    ["cell-na",    "cell-na",    "cell-amber", "cell-na", "cell-amber"]
   };
